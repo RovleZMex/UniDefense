@@ -1084,6 +1084,7 @@ MonoBehaviour:
   damage: 10
   range: 500
   fireRate: 0.5
+  projectile: {fileID: 8042848936162664178, guid: 03f1ec5e7e13d1a49984a90776f47c99, type: 3}
 --- !u!4 &1275583365
 Transform:
   m_ObjectHideFlags: 0

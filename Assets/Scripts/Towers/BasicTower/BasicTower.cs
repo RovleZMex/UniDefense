@@ -5,6 +5,8 @@ using UnityEngine;
 public class BasicTower : Tower
 {
     TowerManager tm;
+    BTProjectile projectileScript;
+    public GameObject projectile;
 
     private GameObject[] enemies;
     private GameObject target;
@@ -62,7 +64,10 @@ public class BasicTower : Tower
         //TODO: Implementar algun tipo de proyectil para visualizar el disparo de la torre
         if (Vector2.Distance(gameObject.transform.position, target.transform.position) <= range)
         {
-            targetScript.TakeDamage(damage);
+            GameObject temp = Instantiate(projectile, transform.position, Quaternion.identity);
+            projectileScript = temp.GetComponent<BTProjectile>();
+            projectileScript.SetDamage(damage);
+            projectileScript.MoveTowardsEnemy(target);
             if (targetScript.health - damage <= 0.0f)
             {
                 CancelInvoke("Attack");
