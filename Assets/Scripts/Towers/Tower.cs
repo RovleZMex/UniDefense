@@ -12,7 +12,7 @@ public abstract class Tower : MonoBehaviour
 
     //UN METODO CON LA PALABRA CLAVE "virtual" PERMITE QUE LAS CLASES DERIVADAS SOBREESCRIBAN
     // EL METODO
-    public virtual void Attack(Enemy target) { 
+    public virtual void Attack() { 
         //TODO: Implementar la logica de ataque de la torre
     }
 

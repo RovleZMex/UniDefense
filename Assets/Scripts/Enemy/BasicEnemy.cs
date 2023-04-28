@@ -31,7 +31,8 @@ public class BasicEnemy : Enemy
 
     public override void TakeDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        health -= damage;
+        if (health <= 0.0f) gm.RemoveEnemy(gameObject);
     }
 
     public override void MoveToNextWaypoint()

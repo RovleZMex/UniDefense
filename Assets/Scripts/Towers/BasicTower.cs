@@ -4,16 +4,82 @@ using UnityEngine;
 
 public class BasicTower : Tower
 {
+    TowerManager tm;
+
+    private GameObject[] enemies;
+    private GameObject target;
+    private Enemy targetScript;
+
+    bool isTargeting = false;
+    bool isShooting = false;
 
     public BasicTower(){
-        damage = 10f;
-        range = 5f;
-        fireRate = 1f;
+        damage = 20f;
+        range = 500f;
+        fireRate = 0.5f;
     }
 
-    public override void Attack(Enemy target)
+    private void Start()
     {
-        target.TakeDamage(damage);
+        tm = GameObject.Find("TowerManager").GetComponent<TowerManager>();
+    }
+
+    private void Update()
+    {
+        if (!isTargeting)
+        {
+            enemies = tm.enemies; // Actualizar la lista de enemigos
+            getTarget(); // Actualizar el objetivo
+        }
+        else {
+            if (!isShooting) {
+                isShooting = true;
+                InvokeRepeating("Attack", 0f, fireRate);
+            }
+        };
+    }
+
+    private void getTarget() {
+        float bestDistance = Mathf.Infinity;
+        GameObject bestCandidate = null;
+        foreach(GameObject enemy in enemies) {
+            float distance = Vector2.Distance(gameObject.transform.position, enemy.transform.position);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                bestCandidate = enemy;
+            }
+        }
+        if (bestCandidate != null) {
+            isTargeting = true;
+            target = bestCandidate;
+            targetScript = target.GetComponent<Enemy>();
+        }
+
+    }
+
+    public override void Attack()
+    {
+        //TODO: Implementar algun tipo de proyectil para visualizar el disparo de la torre
+        if (Vector2.Distance(gameObject.transform.position, target.transform.position) <= range)
+        {
+            targetScript.TakeDamage(damage);
+            if (targetScript.health - damage <= 0.0f)
+            {
+                CancelInvoke("Attack");
+                isTargeting = false;
+                target = null;
+                targetScript = null;
+                isShooting = false;
+            }
+        }
+        else {
+            CancelInvoke("Attack");
+            isTargeting = false;
+            target = null;
+            targetScript = null;
+            isShooting = false;
+            return;
+        }
     }
 
     public override void Upgrade()

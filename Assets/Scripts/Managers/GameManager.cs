@@ -19,14 +19,18 @@ public class GameManager : MonoBehaviour
     public Transform[] waypoints;
 
     // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if(enemies != 5) CreateEnemy();
+        InvokeRepeating("CreateEnemy", 0.0f, 1.0f);
     }
 
     private void CreateEnemy(){
-        Instantiate(basicEnemy, Vector3.zero, Quaternion.identity);
-        enemies += 1;
+        if (enemies < 5)
+        {
+            Instantiate(basicEnemy, Vector3.zero, Quaternion.identity);
+            enemies += 1;
+        }
+
     }
 
     public void RemoveEnemy(GameObject target){

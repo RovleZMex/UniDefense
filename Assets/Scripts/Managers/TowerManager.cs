@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class TowerManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    public GameObject[] enemies;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
     }
 }
